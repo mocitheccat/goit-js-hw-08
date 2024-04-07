@@ -79,16 +79,16 @@ const markup = images
 
 galleryRef.insertAdjacentHTML("beforeend", markup);
 
-const galleryItemsRef = document.querySelectorAll(".gallery-item");
+// Переписав на делегування, так як за умовами завдання повинно бути так
+galleryRef.addEventListener("click", (event) => {
+  event.preventDefault();
 
-galleryItemsRef.forEach((item) => {
-  item.addEventListener("click", (event) => {
-    event.preventDefault();
-    console.dir(event.target);
-    const source = event.target.dataset.source;
-    const instance = basicLightbox.create(
-      `<img src="${source}" alt="${event.target.alt}">`
-    );
-    instance.show();
-  });
+  const target = event.target;
+  if (target.nodeName !== "IMG") return;
+
+  const source = target.dataset.source;
+  const instance = basicLightbox.create(
+    `<img src="${source}" alt="${target.alt}">`
+  );
+  instance.show();
 });
